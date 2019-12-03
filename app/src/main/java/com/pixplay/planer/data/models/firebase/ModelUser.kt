@@ -1,6 +1,6 @@
 package com.pixplay.planer.data.models.firebase
 
-data class UserModel(
+data class ModelUser(
     val id: String,
     val email: String
 )

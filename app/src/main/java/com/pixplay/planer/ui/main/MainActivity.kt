@@ -20,6 +20,7 @@ import com.unicornlight.ui.main.fragments.Fragment1Year
 import com.unicornlight.ui.main.fragments.FragmentGood
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
+import westroom.checkbook2.data.models.adapter.ModelTask
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainContract.IView {
@@ -68,7 +69,7 @@ class MainActivity : BaseActivity(), MainContract.IView {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle(title)
             .setCancelable(true)
-            .setPositiveButton("ОК") { dialog, id ->
+            .setPositiveButton("ОК") { dialog, id_ ->
                 presenter.actionAlertDialog(id)
                 dialog.cancel()
             }
@@ -112,16 +113,20 @@ class MainActivity : BaseActivity(), MainContract.IView {
 
 
 
-    // frame_10years
-
-    //
-
-    // frame_mode
-
-    //
-
-    //frame_color
-
-    //
-
+    // frame_10Years
+    override fun addItemTo10Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME10Years) as Fragment10Years).addToList(modelTask)
+    }
+    // frame_1Years
+    override fun addItemTo1Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Year) as Fragment1Year).addToList(modelTask)
+    }
+    // frame_1Mount
+    override fun addItemTo1Mount(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Mounth) as Fragment1Mount).addToList(modelTask)
+    }
+    // frame_good
+    override fun addItemToGood(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAMEGoods) as FragmentGood).addToList(modelTask)
+    }
 }

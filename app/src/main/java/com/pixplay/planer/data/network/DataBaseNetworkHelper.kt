@@ -1,21 +1,23 @@
 package com.pixplay.planer.data.network
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.rpc.Code
-import com.pixplay.planer.data.models.firebase.UserModel
+import com.pixplay.planer.data.models.firebase.ModelUser
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.create
 import io.reactivex.FlowableEmitter
 import westroom.checkbook2.data.models.adapter.ModelTask
+import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 import java.io.ByteArrayOutputStream
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 
 /**
@@ -34,14 +36,14 @@ import javax.inject.Singleton
         return create({ subscribe: FlowableEmitter<CODE> ->
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener {
-                    firebaseFirestore.collection("users").add(UserModel(it.user?.uid!!, email))
-                        .addOnSuccessListener {
-                            subscribe.onNext(CODE.SUCCESS)
-                        }
-                        .addOnFailureListener {
-                            subscribe.onNext(CODE.FAILURE)
-                            subscribe.onError(it)
-                        }
+                    it.user?.let { user ->
+                        firebaseFirestore.collection("users").document(user.uid).set(ModelUser(user.uid, email))
+                            .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
+                            .addOnFailureListener {
+                                subscribe.onNext(CODE.FAILURE)
+                                subscribe.onError(it)
+                            }
+                    }
                 }
                 .addOnFailureListener {
                     subscribe.onNext(CODE.FAILURE)
@@ -53,9 +55,7 @@ import javax.inject.Singleton
     override fun signIn(email: String, password: String): Flowable<CODE> {
         return create({ subscribe: FlowableEmitter<CODE> ->
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                    subscribe.onNext(CODE.SUCCESS)
-                }
+                .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
                 .addOnFailureListener {
                     subscribe.onNext(CODE.FAILURE)
                     subscribe.onError(it)
@@ -92,6 +92,20 @@ import javax.inject.Singleton
     }
 
     //
+
+    override fun startTaskListener(): Flowable<ArrayList<ModelTaskFromFB>> {
+        return create({ subscribe: FlowableEmitter<ArrayList<ModelTaskFromFB>> ->
+            firebaseAuth.currentUser?.let { user ->
+                firebaseFirestore.collection("users").document(user.uid).collection("tasks").addSnapshotListener { qs, e ->
+                    val list = ArrayList<ModelTaskFromFB>()
+                    qs!!.documentChanges.forEach {
+                        list.add((ModelTaskFromFB(it.type, it.document.toObject(ModelTask::class.java))))
+                    }
+                    subscribe.onNext(list)
+                }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
 
     override fun addNewTask(modelTask: ModelTask): Flowable<CODE> {
         return create({ subscribe: FlowableEmitter<CODE> ->

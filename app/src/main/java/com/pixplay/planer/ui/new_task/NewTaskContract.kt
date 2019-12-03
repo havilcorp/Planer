@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
 import com.pixplay.planer.data.mvp.IMvpView
+import com.pixplay.planer.ui.main.fragments.FRAME
 
 class NewTaskContract {
 
@@ -20,7 +21,7 @@ class NewTaskContract {
         fun onResultActivity(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver)
 
         fun actionImage()
-        fun actionSave(title: String, description: String)
+        fun actionSave(title: String, description: String, status: String)
 
     }
 

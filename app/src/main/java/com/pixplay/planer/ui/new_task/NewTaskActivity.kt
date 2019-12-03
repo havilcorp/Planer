@@ -1,6 +1,9 @@
 package com.pixplay.planer.ui.new_task
 
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Path
+import android.graphics.RectF
 import android.os.Bundle
 import butterknife.ButterKnife
 import com.pixplay.planer.App
@@ -35,12 +38,21 @@ class NewTaskActivity : BaseActivity(), NewTaskContract.IView {
         }
 
         new_task_actionSave.setOnClickListener {
-            presenter.actionSave(
-                new_task_title.text.toString(),
-                new_task_description.text.toString()
-            )
+            val status = intent.getStringExtra("status")
+            status?.let { status ->
+                presenter.actionSave(
+                    new_task_title.text.toString(),
+                    new_task_description.text.toString(),
+                    status
+                )
+            }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        presenter.onResultActivity(requestCode, resultCode, data, contentResolver)
     }
 
     override fun setImage(bitmap: Bitmap) {

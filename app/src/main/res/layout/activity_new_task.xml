@@ -19,7 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:background="@drawable/shape_new_task_image"
-                android:padding="100dp"
+                android:padding="140dp"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/ic_image"/>
 
             <EditText
@@ -37,7 +38,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_new_task_field"
-                android:hint="Описание"
+                android:hint="Комментарий"
                 android:gravity="top"
                 android:padding="10dp"/>
 
@@ -47,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="15dp"
+                android:textSize="18sp"
                 android:background="@drawable/shape_new_task_button"
                 android:text="Сохранить"
                 android:textColor="#fff"

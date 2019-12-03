@@ -15,6 +15,11 @@ class MainContract {
         fun openFrame(frame: FRAME)
         fun activeButton(frame: FRAME)
 
+        fun addItemTo10Year(modelTask: ModelTask)
+        fun addItemTo1Year(modelTask: ModelTask)
+        fun addItemTo1Mount(modelTask: ModelTask)
+        fun addItemToGood(modelTask: ModelTask)
+
     }
 
     interface IPresenter {
@@ -25,6 +30,7 @@ class MainContract {
 
         fun actionMenu(modelMenu: ModelMenu)
         fun frame_main_actionTask(frame: FRAME, modelTask: ModelTask)
+        fun frame_main_actionAdd(frame: FRAME)
 
     }
 

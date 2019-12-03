@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.pixplay.planer.data.network.CODE
 import io.reactivex.disposables.Disposable
 import westroom.checkbook2.data.models.adapter.ModelTask
+import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 
 interface IDataManager {
 
@@ -18,5 +19,6 @@ interface IDataManager {
 
     //
 
+    fun startTaskListener(handler: IAppCallback<ArrayList<ModelTaskFromFB>>): Disposable
     fun addNewTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable
 }

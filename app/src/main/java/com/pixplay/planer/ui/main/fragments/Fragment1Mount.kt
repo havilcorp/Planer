@@ -7,15 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pixplay.planer.R
 import com.pixplay.planer.adapters.TaskAdapter
 import com.pixplay.planer.ui.main.MainActivity
 import com.pixplay.planer.ui.main.fragments.FRAME
+import kotlinx.android.synthetic.main.frame_main.*
 import westroom.checkbook2.data.models.adapter.ModelTask
 
 class Fragment1Mount: Fragment() {
 
     var listModes: RecyclerView? = null
+    var adapter = TaskAdapter {
+        (activity as MainActivity).presenter.frame_main_actionTask(FRAME.FRAME1Mounth, it)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,23 +32,29 @@ class Fragment1Mount: Fragment() {
         return rootView
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     fun init(rootView: View, savedInstanceState: Bundle?) {
         listModes = rootView.findViewById(R.id.frame_main_listModes)
-    }
 
-    fun setListModesAdapter(list: ArrayList<ModelTask>) {
+        rootView.findViewById<FloatingActionButton>(R.id.frame_main_actionAdd).setOnClickListener {
+            (activity as MainActivity).presenter.frame_main_actionAdd(FRAME.FRAME1Mounth)
+        }
+
         listModes?.layoutManager = LinearLayoutManager(
             activity,
             LinearLayoutManager.VERTICAL,
             false
         )
-        listModes?.adapter = TaskAdapter(list) { it ->
-            (activity as MainActivity).presenter.frame_main_actionTask(FRAME.FRAME1Mounth, it)
-        }
+
+        listModes?.adapter = adapter
+
+    }
+
+    fun setList(list: ArrayList<ModelTask>) {
+        adapter.setList(list)
+    }
+
+    fun addToList(modelTask: ModelTask) {
+        adapter.add(modelTask)
     }
 
 }

@@ -6,6 +6,7 @@ import com.pixplay.planer.data.network.CODE
 import com.pixplay.planer.data.network.DataBaseNetworkHelper
 import io.reactivex.disposables.Disposable
 import westroom.checkbook2.data.models.adapter.ModelTask
+import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -47,6 +48,13 @@ import javax.inject.Singleton
     }
 
     //
+
+    override fun startTaskListener(handler: IAppCallback<ArrayList<ModelTaskFromFB>>): Disposable {
+        return dataBaseNetworkHelper.startTaskListener().subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
 
     override fun addNewTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable {
         return dataBaseNetworkHelper.addNewTask(modelTask).subscribe(
