@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "454157067515",
+    "firebase_url": "https://planer-7211b.firebaseio.com",
+    "project_id": "planer-7211b",
+    "storage_bucket": "planer-7211b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454157067515:android:49811e676c9646e0393c5e",
+        "android_client_info": {
+          "package_name": "com.pixplay.planer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454157067515-9jc2umiemjrgto5j9djra65d8dh3rseq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pixplay.planer",
+            "certificate_hash": "c7beea24a7a3b54c811216d646ce2dabc8f04dc0"
+          }
+        },
+        {
+          "client_id": "454157067515-qubk600jslnpu9nkgoc32gcrnq1dig52.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTqP8WYJJRHC2NhmK5edNQtxDjqvnVvhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454157067515-qubk600jslnpu9nkgoc32gcrnq1dig52.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
