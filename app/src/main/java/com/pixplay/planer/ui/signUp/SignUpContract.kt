@@ -12,7 +12,7 @@ class SignUpContract {
     interface IPresenter {
         fun initializeView()
 
-        fun actionSignUp()
+        fun actionSignUp(email: String, pass: String, rePass: String)
 
     }
 

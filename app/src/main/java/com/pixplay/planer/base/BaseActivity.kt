@@ -14,6 +14,7 @@ import com.pixplay.planer.R
 import com.pixplay.planer.data.mvp.IMvpView
 import com.pixplay.planer.utils.AnimUtils
 
+
 abstract class BaseActivity: AppCompatActivity(), IMvpView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,14 +30,25 @@ abstract class BaseActivity: AppCompatActivity(), IMvpView {
         if(isFinish) finish()
     }
 
+    override fun startActivityFResult(clazz: Class<*>, code: Int, intent: Intent) {
+        intent.setClass(this, clazz)
+        startActivityForResult(intent, code)
+    }
+
+    override fun startActivityFResult(intent: Intent, code: Int) {
+        startActivityForResult(intent, code)
+    }
+
+    override fun setTitle(t: String) {
+        title = t
+    }
+
     override fun backView() {
         finish()
     }
 
     override fun setBackView() {
-        //findViewById<View>(R.id.header_back).setOnClickListener {
-        //    backView()
-        //}
+
     }
 
     override fun hideKayboard(){

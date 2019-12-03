@@ -1,24 +1,23 @@
-package com.pixplay.planer.ui.signIn
+package com.pixplay.planer.ui.remember_pass
 
 import android.os.Bundle
 import butterknife.ButterKnife
 import com.pixplay.planer.App
 import com.pixplay.planer.R
 import com.pixplay.planer.base.BaseActivity
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import javax.inject.Inject
 
-class SignInActivity : BaseActivity(), SignInContract.IView {
+class RememberPassActivity : BaseActivity(), RememberPassContract.IView {
 
     override fun inject() {
         App[this].component.inject(this)
     }
 
-    @Inject lateinit var presenter: SignInPresenter
+    @Inject lateinit var presenter: RememberPassPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        setContentView(R.layout.activity_remember_pass)
 
         ButterKnife.bind(this)
 
@@ -28,13 +27,7 @@ class SignInActivity : BaseActivity(), SignInContract.IView {
 
     override fun initializeView() {
 
-        signIn_actionSignIn.setOnClickListener {
-            presenter.actionSignIn(signIn_email.text.toString(), signIn_password.text.toString())
-        }
 
-        signIn_actionSignUp.setOnClickListener {
-            presenter.actionSignUp()
-        }
 
     }
 

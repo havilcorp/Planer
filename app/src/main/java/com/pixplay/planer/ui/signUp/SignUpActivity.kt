@@ -6,7 +6,9 @@ import butterknife.ButterKnife
 import com.pixplay.planer.App
 import com.pixplay.planer.R
 import com.pixplay.planer.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import javax.inject.Inject
+
 
 class SignUpActivity : BaseActivity(), SignUpContract.IView {
 
@@ -27,12 +29,13 @@ class SignUpActivity : BaseActivity(), SignUpContract.IView {
     }
 
     override fun initializeView() {
-
         findViewById<View>(R.id.signUp_actionSignUp).setOnClickListener {
-            presenter.actionSignUp()
+            presenter.actionSignUp(
+                signUp_email.text.toString(),
+                signUp_pass.text.toString(),
+                signUp_rePass.text.toString()
+            )
         }
-
-
     }
 
 }

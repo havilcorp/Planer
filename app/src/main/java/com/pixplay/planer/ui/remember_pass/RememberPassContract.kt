@@ -1,8 +1,8 @@
-package com.pixplay.planer.ui.signIn
+package com.pixplay.planer.ui.remember_pass
 
 import com.pixplay.planer.data.mvp.IMvpView
 
-class SignInContract {
+class RememberPassContract {
 
     interface IView: IMvpView {
         fun initializeView()
@@ -12,8 +12,6 @@ class SignInContract {
     interface IPresenter {
         fun initializeView()
 
-        fun actionSignIn(email: String, pass: String)
-        fun actionSignUp()
 
     }
 

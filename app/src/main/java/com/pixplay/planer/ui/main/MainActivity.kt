@@ -1,8 +1,10 @@
 package com.pixplay.planer.ui.main
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -16,6 +18,7 @@ import com.pixplay.planer.ui.main.fragments.Fragment10Years
 import com.unicornlight.ui.main.fragments.Fragment1Mount
 import com.unicornlight.ui.main.fragments.Fragment1Year
 import com.unicornlight.ui.main.fragments.FragmentGood
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
 import javax.inject.Inject
 
@@ -43,34 +46,56 @@ class MainActivity : BaseActivity(), MainContract.IView {
     override fun initializeView() {
 
         //  init fragments
-        listFragments.add(ModelMenu(Fragment10Years(), FRAME.FRAME10Years, ""))
-        listFragments.add(ModelMenu(Fragment1Year(), FRAME.FRAME1Year, ""))
-        listFragments.add(ModelMenu(Fragment1Mount(), FRAME.FRAME1Mounth, ""))
-        listFragments.add(ModelMenu(FragmentGood(), FRAME.FRAMEGoods, ""))
+        listFragments.add(ModelMenu(Fragment10Years(), FRAME.FRAME10Years, "План на 10 лет"))
+        listFragments.add(ModelMenu(Fragment1Year(), FRAME.FRAME1Year, "План на 1 год"))
+        listFragments.add(ModelMenu(Fragment1Mount(), FRAME.FRAME1Mounth, "План на 1 месяц"))
+        listFragments.add(ModelMenu(FragmentGood(), FRAME.FRAMEGoods, "Выполнено"))
         fTrans = supportFragmentManager.beginTransaction()
         listFragments.forEach { fTrans.add(R.id.main_frame, it.fragment) }
         fTrans.commit()
         //
 
-        findViewById<View>(R.id.main_actionMenu1).setOnClickListener { presenter.actionMenu(listFragments[0].frame) }
-        findViewById<View>(R.id.main_actionMenu2).setOnClickListener { presenter.actionMenu(listFragments[1].frame) }
-        findViewById<View>(R.id.main_actionMenu3).setOnClickListener { presenter.actionMenu(listFragments[2].frame) }
-        findViewById<View>(R.id.main_actionMenu4).setOnClickListener { presenter.actionMenu(listFragments[3].frame) }
+        main_actionMenu1.setOnClickListener { presenter.actionMenu(listFragments[0]) }
+        main_actionMenu2.setOnClickListener { presenter.actionMenu(listFragments[1]) }
+        main_actionMenu3.setOnClickListener { presenter.actionMenu(listFragments[2]) }
+        main_actionMenu4.setOnClickListener { presenter.actionMenu(listFragments[3]) }
 
-        openFrame(FRAME.FRAME10Years)
-        activeButton(FRAME.FRAME10Years)
+        presenter.actionMenu(listFragments[0])
 
     }
 
+    override fun showAlertDialog(id: Int, title: String) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+            .setCancelable(true)
+            .setPositiveButton("ОК") { dialog, id ->
+                presenter.actionAlertDialog(id)
+                dialog.cancel()
+            }
+            .setNegativeButton("Отмена") { dialog, id -> dialog.cancel() }
+        val alert: AlertDialog = builder.create()
+        alert.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        presenter.actionTopMenu(item.itemId)
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun activeButton(frame: FRAME) {
-        findViewById<View>(R.id.main_actionMenu1).backgroundColor = Color.TRANSPARENT
-        findViewById<View>(R.id.main_actionMenu2).backgroundColor = Color.TRANSPARENT
-        findViewById<View>(R.id.main_actionMenu3).backgroundColor = Color.TRANSPARENT
-        findViewById<View>(R.id.main_actionMenu4).backgroundColor = Color.TRANSPARENT
-        if(frame == FRAME.FRAME10Years) findViewById<View>(R.id.main_actionMenu1).backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAME1Year) findViewById<View>(R.id.main_actionMenu2).backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAME1Mounth) findViewById<View>(R.id.main_actionMenu3).backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAMEGoods) findViewById<View>(R.id.main_actionMenu4).backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        main_actionMenu1.backgroundColor = Color.TRANSPARENT
+        main_actionMenu2.backgroundColor = Color.TRANSPARENT
+        main_actionMenu3.backgroundColor = Color.TRANSPARENT
+        main_actionMenu4.backgroundColor = Color.TRANSPARENT
+        if(frame == FRAME.FRAME10Years) main_actionMenu1.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAME1Year) main_actionMenu2.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAME1Mounth) main_actionMenu3.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAMEGoods) main_actionMenu4.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
     }
 
     override fun openFrame(frame: FRAME) {
@@ -84,6 +109,8 @@ class MainActivity : BaseActivity(), MainContract.IView {
         listFragments.forEach { if(it.frame == frame) return it.fragment }
         return Fragment()
     }
+
+
 
     // frame_10years
 

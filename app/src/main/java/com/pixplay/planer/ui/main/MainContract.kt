@@ -10,6 +10,8 @@ class MainContract {
     interface IView: IMvpView {
         fun initializeView()
 
+        fun showAlertDialog(id: Int, title: String)
+
         fun openFrame(frame: FRAME)
         fun activeButton(frame: FRAME)
 
@@ -18,7 +20,10 @@ class MainContract {
     interface IPresenter {
         fun initializeView()
 
-        fun actionMenu(frame: FRAME)
+        fun actionTopMenu(itemId: Int)
+        fun actionAlertDialog(id: Int)
+
+        fun actionMenu(modelMenu: ModelMenu)
         fun frame_main_actionTask(frame: FRAME, modelTask: ModelTask)
 
     }

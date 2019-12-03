@@ -33,14 +33,6 @@ class Fragment10Years: Fragment() {
 
     fun init(rootView: View, savedInstanceState: Bundle?) {
         listModes = rootView.findViewById(R.id.frame_main_listModes)
-
-        val list = ArrayList<ModelTask>()
-        list.add(ModelTask("", "Заголовок1", "Описание1"))
-        list.add(ModelTask("", "Заголовок2", "Описание2"))
-        list.add(ModelTask("", "Заголовок3", "Описание3"))
-        list.add(ModelTask("", "Заголовок4", "Описание4"))
-        list.add(ModelTask("", "Заголовок5", "Описание5"))
-        setListModesAdapter(list)
     }
 
     fun setListModesAdapter(list: ArrayList<ModelTask>) {

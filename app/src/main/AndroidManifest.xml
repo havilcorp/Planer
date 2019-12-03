@@ -22,7 +22,30 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.signUp.SignUpActivity"/>
+        <activity
+            android:name=".ui.signUp.SignUpActivity"
+            android:parentActivityName=".ui.signIn.SignInActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.signIn.SignInActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.remember_pass.RememberPassActivity"
+            android:parentActivityName=".ui.signIn.SignInActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.signIn.SignInActivity"/>
+        </activity>
+
+        <activity
+            android:name=".ui.new_task.NewTaskActivity"
+            android:parentActivityName=".ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity"/>
+        </activity>
+
         <activity android:name=".ui.signIn.SignInActivity"/>
         <activity android:name=".ui.main.MainActivity"/>
 
