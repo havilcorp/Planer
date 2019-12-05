@@ -25,6 +25,7 @@ interface IDataBaseNetworkHelper {
 
     fun startTaskListener(): Flowable<ArrayList<ModelTaskFromFB>>
     fun addNewTask(modelTask: ModelTask): Flowable<CODE>
+    fun modiferTask(modelTask: ModelTask): Flowable<CODE>
     fun modiferStatusTask(id: String, status: String): Flowable<CODE>
     fun deleteTask(id: String): Flowable<CODE>
     fun getTask(id: String): Flowable<ModelTask>

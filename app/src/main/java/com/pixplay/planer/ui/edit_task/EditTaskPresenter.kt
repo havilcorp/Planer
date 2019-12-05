@@ -25,7 +25,7 @@ import javax.inject.Singleton
     private lateinit var internetUtils: InternetUtils
     val CAMERA_ACTION_GALERY = 100
     var loadImage: Bitmap? = null
-
+    var modelTask = ModelTask()
 
     override fun initializeView() {
         iMvpView?.initializeView()
@@ -45,6 +45,7 @@ import javax.inject.Singleton
     override fun loadTask(id: String) {
         dataManager.getTask(id, object : IAppCallback<ModelTask> {
             override fun onSuccess(response: ModelTask) {
+                modelTask = response
                 iMvpView?.setTask(response)
             }
         })
@@ -59,12 +60,28 @@ import javax.inject.Singleton
         iMvpView?.startActivityFResult(intent, CAMERA_ACTION_GALERY)
     }
 
-    override fun actionSave(title: String, description: String) {
+    override fun actionEdit(title: String, description: String) {
         if(title.isEmpty() || description.isEmpty()) iMvpView?.message("Не вcе данные были заполнены!")
-        else loadImage?.let { loadImage ->
+        else {
+            val modelTask = ModelTask(modelTask.url, title, description, modelTask.status, modelTask.id)
             iMvpView?.showProgress()
-
+            if(loadImage != null) {
+                dataManager.loadPhotoAndGetUrlName(loadImage!!, object : IAppCallback<String> {
+                    override fun onSuccess(imageUrl: String) {
+                        modelTask.url = imageUrl
+                        modifer(modelTask)
+                    }
+                })
+            } else modifer(modelTask)
         }
+    }
+
+    fun modifer(modelTask: ModelTask){
+        dataManager.modiferTask(modelTask, object : IAppCallback<CODE> {
+            override fun onSuccess(response: CODE) {
+                iMvpView?.backView()
+            }
+        })
     }
 
 }

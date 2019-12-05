@@ -39,7 +39,7 @@ class EditTaskActivity : BaseActivity(), EditTaskContract.IView {
         }
 
         edit_task_actionSave.setOnClickListener {
-            presenter.actionSave(
+            presenter.actionEdit(
                 edit_task_title.text.toString(),
                 edit_task_description.text.toString())
         }

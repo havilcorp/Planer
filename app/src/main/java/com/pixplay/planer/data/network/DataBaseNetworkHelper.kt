@@ -121,6 +121,21 @@ import kotlin.collections.ArrayList
         }, BackpressureStrategy.BUFFER)
     }
 
+    override fun modiferTask(modelTask: ModelTask): Flowable<CODE> {
+        return create({ subscribe: FlowableEmitter<CODE> ->
+            //firebaseAuth.currentUser?.let {
+            //    firebaseFirestore.collection("users").document(it.uid)
+            //        .collection("tasks").document(modelTask.id)
+            //        .update(modelTask)
+            //        .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
+            //        .addOnFailureListener {
+            //            subscribe.onNext(CODE.FAILURE)
+            //            subscribe.onError(it)
+            //        }
+            //}
+        }, BackpressureStrategy.BUFFER)
+    }
+
     override fun modiferStatusTask(id: String, status: String): Flowable<CODE> {
         return create({ subscribe: FlowableEmitter<CODE> ->
             firebaseAuth.currentUser?.let {

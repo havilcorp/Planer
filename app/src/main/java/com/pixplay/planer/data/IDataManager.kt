@@ -21,6 +21,7 @@ interface IDataManager {
 
     fun startTaskListener(handler: IAppCallback<ArrayList<ModelTaskFromFB>>): Disposable
     fun addNewTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable
+    fun modiferTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable
     fun modiferStatusTask(id: String, status: String, handler: IAppCallback<CODE>): Disposable
     fun deleteTask(id: String, handler: IAppCallback<CODE>): Disposable
     fun getTask(id: String, handler: IAppCallback<ModelTask>): Disposable

@@ -26,45 +26,101 @@
                 android:background="#fff"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/main_actionMenu1"
+                <LinearLayout
+                    android:id="@+id/main_actionMenu1View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center"
                     android:layout_weight="1"
-                    android:textColor="@color/sign_text_color"
-                    android:text="10 Лет"/>
+                    android:padding="10dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/main_actionMenu2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textColor="@color/sign_text_color"
-                    android:text="1 Год"/>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        app:srcCompat="@drawable/ic_list_all"/>
 
-                <TextView
-                    android:id="@+id/main_actionMenu3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:textColor="@color/sign_text_color"
-                    android:text="1 Месяц"/>
+                    <TextView
+                        android:id="@+id/main_actionMenu1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/sign_text_color"
+                        android:text="Все мечты"/>
 
-                <TextView
-                    android:id="@+id/main_actionMenu4"
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_actionMenu2View"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center"
                     android:layout_weight="1"
-                    android:textColor="@color/sign_text_color"
-                    android:text="Выполнено"/>
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        app:srcCompat="@drawable/ic_calendar"/>
+
+                    <TextView
+                        android:id="@+id/main_actionMenu2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/sign_text_color"
+                        android:text="1 Год"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_actionMenu3View"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        app:srcCompat="@drawable/ic_input"/>
+
+                    <TextView
+                        android:id="@+id/main_actionMenu3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/sign_text_color"
+                        android:text="В работе"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_actionMenu4View"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        app:srcCompat="@drawable/ic_done"/>
+
+                    <TextView
+                        android:id="@+id/main_actionMenu4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/sign_text_color"
+                        android:text="Выполнено"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

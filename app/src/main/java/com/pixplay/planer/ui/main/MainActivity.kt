@@ -59,10 +59,10 @@ class MainActivity : BaseActivity(), MainContract.IView {
         fTrans.commit()
         //
 
-        main_actionMenu1.setOnClickListener { presenter.actionMenu(listFragments[0]) }
-        main_actionMenu2.setOnClickListener { presenter.actionMenu(listFragments[1]) }
-        main_actionMenu3.setOnClickListener { presenter.actionMenu(listFragments[2]) }
-        main_actionMenu4.setOnClickListener { presenter.actionMenu(listFragments[3]) }
+        main_actionMenu1View.setOnClickListener { presenter.actionMenu(listFragments[0]) }
+        main_actionMenu2View.setOnClickListener { presenter.actionMenu(listFragments[1]) }
+        main_actionMenu3View.setOnClickListener { presenter.actionMenu(listFragments[2]) }
+        main_actionMenu4View.setOnClickListener { presenter.actionMenu(listFragments[3]) }
 
         presenter.actionMenu(listFragments[0])
 

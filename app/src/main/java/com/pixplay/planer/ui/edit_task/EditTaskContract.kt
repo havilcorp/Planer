@@ -23,7 +23,7 @@ class EditTaskContract {
         fun onResultActivity(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver)
 
         fun actionImage()
-        fun actionSave(title: String, description: String)
+        fun actionEdit(title: String, description: String)
 
     }
 

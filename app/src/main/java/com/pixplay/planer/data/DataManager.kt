@@ -63,6 +63,13 @@ import javax.inject.Singleton
         )
     }
 
+    override fun modiferTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable {
+        return dataBaseNetworkHelper.modiferTask(modelTask).subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
+
     override fun modiferStatusTask(id: String, status: String, handler: IAppCallback<CODE>): Disposable {
         return dataBaseNetworkHelper.modiferStatusTask(id, status).subscribe(
             { handler.onSuccess(it) },

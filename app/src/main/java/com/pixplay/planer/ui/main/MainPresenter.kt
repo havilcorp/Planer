@@ -28,7 +28,6 @@ import javax.inject.Singleton
     private lateinit var internetUtils: InternetUtils
 
     override fun initializeView() {
-        val initializeView = iMvpView?.initializeView()
 
         dataManager.startTaskListener(object : IAppCallback<ArrayList<ModelTaskFromFB>> {
             override fun onSuccess(response: ArrayList<ModelTaskFromFB>) {
@@ -74,7 +73,6 @@ import javax.inject.Singleton
 
     override fun frame_main_OnActionAlertDialogResult(id: Int) {
         when(id) {
-            R.id.menu_clear -> dataManager.clearAllTasks(object : IAppCallback<CODE> {})
             R.id.menu_exit -> {
                 dataManager.signOut(object : IAppCallback<CODE> {
                     override fun onSuccess(response: CODE) {
@@ -82,12 +80,15 @@ import javax.inject.Singleton
                     }
                 })
             }
+            R.id.menu_clear -> {
+                dataManager.clearAllTasks(object : IAppCallback<CODE> {})
+            }
         }
     }
 
     override fun actionMenu(modelMenu: ModelMenu) {
         iMvpView?.openFrame(modelMenu.frame)
-        iMvpView?.activeButton(modelMenu.frame)
+        //iMvpView?.activeButton(modelMenu.frame)
         iMvpView?.setTitle(modelMenu.title)
     }
 
