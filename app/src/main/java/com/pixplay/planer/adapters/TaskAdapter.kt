@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pixplay.planer.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.adapter_task_item.view.*
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 
 /**
  * Created by havil on 25.03.2018.
@@ -22,7 +22,7 @@ open class TaskAdapter(private val listener: (ModelTask) -> Unit) : RecyclerView
             if(item.url != "") Picasso.get().load(item.url).placeholder(R.drawable.shape_progress_bar_load).into(task_item_image)
             task_item_title.text = item.title
             task_item_description.text = item.description
-            setOnClickListener { listener(item) }
+            task_item_actionMenu.setOnClickListener { listener(item) }
         }
     }
 
@@ -33,6 +33,26 @@ open class TaskAdapter(private val listener: (ModelTask) -> Unit) : RecyclerView
     fun add(modelTask: ModelTask) {
         list.add(modelTask)
         notifyDataSetChanged()
+    }
+
+    fun modifer(modelTask: ModelTask) {
+        list.forEachIndexed { index, it ->
+            if(it.id == modelTask.id) {
+                list[index] = modelTask
+                notifyItemChanged(index)
+                return
+            }
+        }
+    }
+
+    fun remove(modelTask: ModelTask) {
+        list.forEachIndexed { index, it ->
+            if(it.id == modelTask.id) {
+                list.remove(it)
+                notifyItemRemoved(index)
+                return
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(

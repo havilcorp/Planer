@@ -6,6 +6,7 @@ import com.pixplay.planer.dagger.moduls.FirebaseModule
 import com.pixplay.planer.data.DataManager
 import com.pixplay.planer.data.local.DataBaseLocalHelper
 import com.pixplay.planer.data.network.DataBaseNetworkHelper
+import com.pixplay.planer.ui.edit_task.EditTaskActivity
 import com.pixplay.planer.ui.logo.LogoActivity
 import com.pixplay.planer.ui.main.MainActivity
 import com.pixplay.planer.ui.new_task.NewTaskActivity
@@ -26,6 +27,7 @@ interface IDaggerComponent {
     fun inject(activity: MainActivity)
     fun inject(activity: RememberPassActivity)
     fun inject(activity: NewTaskActivity)
+    fun inject(activity: EditTaskActivity)
 
     var dataManager : DataManager
     var dataBaseNetworkHelper : DataBaseNetworkHelper

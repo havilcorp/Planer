@@ -40,6 +40,11 @@ abstract class BaseActivity: AppCompatActivity(), IMvpView {
     }
 
     override fun setTitle(t: String) {
+
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setLogo(R.mipmap.ic_launcher)
+        supportActionBar!!.setDisplayUseLogoEnabled(true)
+
         title = t
     }
 

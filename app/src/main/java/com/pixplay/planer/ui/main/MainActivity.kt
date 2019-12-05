@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -20,8 +21,10 @@ import com.unicornlight.ui.main.fragments.Fragment1Year
 import com.unicornlight.ui.main.fragments.FragmentGood
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
-import westroom.checkbook2.data.models.adapter.ModelTask
+import westroom.checkbook2.data.models.adapter.ModelIdString
+import com.pixplay.planer.data.models.adapter.ModelTask
 import javax.inject.Inject
+
 
 class MainActivity : BaseActivity(), MainContract.IView {
 
@@ -70,12 +73,21 @@ class MainActivity : BaseActivity(), MainContract.IView {
         builder.setTitle(title)
             .setCancelable(true)
             .setPositiveButton("ОК") { dialog, id_ ->
-                presenter.actionAlertDialog(id)
+                presenter.frame_main_OnActionAlertDialogResult(id)
                 dialog.cancel()
             }
             .setNegativeButton("Отмена") { dialog, id -> dialog.cancel() }
         val alert: AlertDialog = builder.create()
         alert.show()
+    }
+
+    override fun showListAlertDialog(frame: FRAME, list: ArrayList<String>) {
+        val builderSingle = AlertDialog.Builder(this)
+        val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1)
+        list.forEach { arrayAdapter.add(it) }
+        builderSingle.setNegativeButton("Отмена") { dialog, id -> dialog.cancel() }
+        builderSingle.setAdapter(arrayAdapter) { dialog, which -> presenter.frame_main_OnActionTaskMenuResult(frame, which) }
+        builderSingle.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -114,19 +126,55 @@ class MainActivity : BaseActivity(), MainContract.IView {
 
 
     // frame_10Years
+    override fun setCount10Year(count: Int) {
+        main_actionMenu1.text = "10 Лет ($count)"
+    }
     override fun addItemTo10Year(modelTask: ModelTask) {
         (getFrame(FRAME.FRAME10Years) as Fragment10Years).addToList(modelTask)
     }
+    override fun modiferItemTo10Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME10Years) as Fragment10Years).modiferToList(modelTask)
+    }
+    override fun removeItemTo10Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME10Years) as Fragment10Years).removeToList(modelTask)
+    }
     // frame_1Years
+    override fun setCount1Year(count: Int) {
+        main_actionMenu2.text = "1 Год ($count)"
+    }
     override fun addItemTo1Year(modelTask: ModelTask) {
         (getFrame(FRAME.FRAME1Year) as Fragment1Year).addToList(modelTask)
     }
+    override fun modiferItemTo1Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Year) as Fragment1Year).modiferToList(modelTask)
+    }
+    override fun removeItemTo1Year(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Year) as Fragment1Year).removeToList(modelTask)
+    }
     // frame_1Mount
+    override fun setCount1Mount(count: Int) {
+        main_actionMenu3.text = "1 Месяц ($count)"
+    }
     override fun addItemTo1Mount(modelTask: ModelTask) {
         (getFrame(FRAME.FRAME1Mounth) as Fragment1Mount).addToList(modelTask)
     }
+    override fun modiferItemTo1Mount(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Mounth) as Fragment1Mount).modiferToList(modelTask)
+    }
+    override fun removeItemTo1Mount(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAME1Mounth) as Fragment1Mount).removeToList(modelTask)
+    }
     // frame_good
+    override fun setCountGood(count: Int) {
+        main_actionMenu4.text = "Выполнено ($count)"
+    }
     override fun addItemToGood(modelTask: ModelTask) {
         (getFrame(FRAME.FRAMEGoods) as FragmentGood).addToList(modelTask)
+    }
+    override fun modiferItemToGood(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAMEGoods) as FragmentGood).modiferToList(modelTask)
+    }
+    override fun removeItemToGood(modelTask: ModelTask) {
+        (getFrame(FRAME.FRAMEGoods) as FragmentGood).removeToList(modelTask)
     }
 }

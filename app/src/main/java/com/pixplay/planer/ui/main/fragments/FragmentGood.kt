@@ -12,14 +12,13 @@ import com.pixplay.planer.R
 import com.pixplay.planer.adapters.TaskAdapter
 import com.pixplay.planer.ui.main.MainActivity
 import com.pixplay.planer.ui.main.fragments.FRAME
-import kotlinx.android.synthetic.main.frame_main.*
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 
 class FragmentGood: Fragment() {
 
     var listModes: RecyclerView? = null
     var adapter = TaskAdapter {
-        (activity as MainActivity).presenter.frame_main_actionTask(FRAME.FRAMEGoods, it)
+        (activity as MainActivity).presenter.frame_main_actionTaskMenu(FRAME.FRAMEGoods, it)
     }
 
     override fun onCreateView(
@@ -54,6 +53,21 @@ class FragmentGood: Fragment() {
 
     fun addToList(modelTask: ModelTask) {
         adapter.add(modelTask)
+        updateCount()
+    }
+
+    fun modiferToList(modelTask: ModelTask) {
+        adapter.modifer(modelTask)
+        updateCount()
+    }
+
+    fun removeToList(modelTask: ModelTask) {
+        adapter.remove(modelTask)
+        updateCount()
+    }
+
+    fun updateCount() {
+        (activity as MainActivity).presenter.updateCountListGood(adapter.itemCount)
     }
 
 }

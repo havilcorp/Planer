@@ -11,14 +11,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pixplay.planer.R
 import com.pixplay.planer.adapters.TaskAdapter
 import com.pixplay.planer.ui.main.MainActivity
-import kotlinx.android.synthetic.main.frame_main.*
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 
 class Fragment10Years: Fragment() {
 
     var listModes: RecyclerView? = null
     var adapter = TaskAdapter {
-        (activity as MainActivity).presenter.frame_main_actionTask(FRAME.FRAME10Years, it)
+        (activity as MainActivity).presenter.frame_main_actionTaskMenu(FRAME.FRAME10Years, it)
     }
 
     override fun onCreateView(
@@ -53,6 +52,21 @@ class Fragment10Years: Fragment() {
 
     fun addToList(modelTask: ModelTask) {
         adapter.add(modelTask)
+        updateCount()
+    }
+
+    fun modiferToList(modelTask: ModelTask) {
+        adapter.modifer(modelTask)
+        updateCount()
+    }
+
+    fun removeToList(modelTask: ModelTask) {
+        adapter.remove(modelTask)
+        updateCount()
+    }
+
+    fun updateCount() {
+        (activity as MainActivity).presenter.updateCountList10Year(adapter.itemCount)
     }
 
 }

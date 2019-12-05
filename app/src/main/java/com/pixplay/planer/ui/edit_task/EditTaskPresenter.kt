@@ -1,4 +1,4 @@
-package com.pixplay.planer.ui.new_task
+package com.pixplay.planer.ui.edit_task
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -13,12 +13,13 @@ import com.pixplay.planer.data.network.CODE
 import com.pixplay.planer.utils.InternetUtils
 import io.reactivex.disposables.CompositeDisposable
 import com.pixplay.planer.data.models.adapter.ModelTask
+import com.pixplay.planer.ui.new_task.NewTaskContract
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton class NewTaskPresenter
-@Inject constructor(private val dataManager: DataManager): BasePresenter<NewTaskContract.IView>(),
-    NewTaskContract.IPresenter {
+@Singleton class EditTaskPresenter
+@Inject constructor(private val dataManager: DataManager): BasePresenter<EditTaskContract.IView>(),
+    EditTaskContract.IPresenter {
 
     private val compositeDisposable = CompositeDisposable()
     private lateinit var internetUtils: InternetUtils
@@ -28,7 +29,7 @@ import javax.inject.Singleton
 
     override fun initializeView() {
         iMvpView?.initializeView()
-        iMvpView?.setTitle("Новая мечта")
+        iMvpView?.setTitle("Изменить мечту")
     }
 
     override fun onResultActivity(requestCode: Int, resultCode: Int, data: Intent?, contentResolver: ContentResolver) {
@@ -41,6 +42,14 @@ import javax.inject.Singleton
         }
     }
 
+    override fun loadTask(id: String) {
+        dataManager.getTask(id, object : IAppCallback<ModelTask> {
+            override fun onSuccess(response: ModelTask) {
+                iMvpView?.setTask(response)
+            }
+        })
+    }
+
     @SuppressLint("IntentReset")
     override fun actionImage() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -50,23 +59,11 @@ import javax.inject.Singleton
         iMvpView?.startActivityFResult(intent, CAMERA_ACTION_GALERY)
     }
 
-    override fun actionSave(title: String, description: String, status: String) {
+    override fun actionSave(title: String, description: String) {
         if(title.isEmpty() || description.isEmpty()) iMvpView?.message("Не вcе данные были заполнены!")
         else loadImage?.let { loadImage ->
             iMvpView?.showProgress()
-            dataManager.loadPhotoAndGetUrlName(loadImage, object : IAppCallback<String> {
-                override fun onSuccess(imageUrl: String) {
-                    dataManager.addNewTask(ModelTask(imageUrl, title, description, status), object : IAppCallback<CODE> {
-                        override fun onSuccess(response: CODE) {
-                            iMvpView?.hideProgress()
-                            if(response == CODE.SUCCESS) {
-                                iMvpView?.message("Добавлено")
-                                iMvpView?.backView()
-                            }
-                        }
-                    })
-                }
-            })
+
         }
     }
 

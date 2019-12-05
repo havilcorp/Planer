@@ -1,7 +1,6 @@
 package com.pixplay.planer.data.network
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,7 +10,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.create
 import io.reactivex.FlowableEmitter
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -110,7 +109,9 @@ import kotlin.collections.ArrayList
     override fun addNewTask(modelTask: ModelTask): Flowable<CODE> {
         return create({ subscribe: FlowableEmitter<CODE> ->
            firebaseAuth.currentUser?.let {
-               firebaseFirestore.collection("users").document(it.uid).collection("tasks").add(modelTask)
+               val doc = firebaseFirestore.collection("users").document(it.uid).collection("tasks").document()
+               modelTask.id = doc.id
+               doc.set(modelTask)
                    .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
                    .addOnFailureListener {
                        subscribe.onNext(CODE.FAILURE)
@@ -119,5 +120,73 @@ import kotlin.collections.ArrayList
            }
         }, BackpressureStrategy.BUFFER)
     }
+
+    override fun modiferStatusTask(id: String, status: String): Flowable<CODE> {
+        return create({ subscribe: FlowableEmitter<CODE> ->
+            firebaseAuth.currentUser?.let {
+                firebaseFirestore.collection("users").document(it.uid)
+                    .collection("tasks").document(id)
+                    .update("status", status)
+                    .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
+                    .addOnFailureListener {
+                        subscribe.onNext(CODE.FAILURE)
+                        subscribe.onError(it)
+                    }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
+    override fun deleteTask(id: String): Flowable<CODE> {
+        return create({ subscribe: FlowableEmitter<CODE> ->
+            firebaseAuth.currentUser?.let {
+                firebaseFirestore.collection("users").document(it.uid)
+                    .collection("tasks").document(id)
+                    .delete()
+                    .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
+                    .addOnFailureListener {
+                        subscribe.onNext(CODE.FAILURE)
+                        subscribe.onError(it)
+                    }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
+    override fun getTask(id: String): Flowable<ModelTask> {
+        return create({ subscribe: FlowableEmitter<ModelTask> ->
+            firebaseAuth.currentUser?.let {
+                firebaseFirestore.collection("users").document(it.uid)
+                    .collection("tasks").document(id)
+                    .get()
+                    .addOnSuccessListener { subscribe.onNext(it.toObject(ModelTask::class.java)!!) }
+                    .addOnFailureListener {
+                        subscribe.onError(it)
+                    }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
+    override fun clearAllTasks(): Flowable<CODE> {
+        return create({ subscribe: FlowableEmitter<CODE> ->
+            firebaseAuth.currentUser?.let {
+                val collectTasks = firebaseFirestore.collection("users").document(it.uid).collection("tasks")
+                collectTasks.get().addOnSuccessListener {
+                    val batch = firebaseFirestore.batch()
+                    it.documents.forEach {
+                        it?.let {
+                            batch.delete(collectTasks.document(it.id))
+                        }
+                    }
+                    batch.commit()
+                        .addOnSuccessListener { subscribe.onNext(CODE.SUCCESS) }
+                        .addOnFailureListener {
+                            subscribe.onNext(CODE.FAILURE)
+                            subscribe.onError(it)
+                        }
+                }
+            }
+        }, BackpressureStrategy.BUFFER)
+    }
+
+
 
 }

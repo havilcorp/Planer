@@ -2,7 +2,7 @@ package com.pixplay.planer.data.network
 
 import android.graphics.Bitmap
 import io.reactivex.Flowable
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 import java.util.ArrayList
 
@@ -25,6 +25,9 @@ interface IDataBaseNetworkHelper {
 
     fun startTaskListener(): Flowable<ArrayList<ModelTaskFromFB>>
     fun addNewTask(modelTask: ModelTask): Flowable<CODE>
-
+    fun modiferStatusTask(id: String, status: String): Flowable<CODE>
+    fun deleteTask(id: String): Flowable<CODE>
+    fun getTask(id: String): Flowable<ModelTask>
+    fun clearAllTasks(): Flowable<CODE>
 
 }

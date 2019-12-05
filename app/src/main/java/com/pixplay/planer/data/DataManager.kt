@@ -5,7 +5,7 @@ import com.pixplay.planer.data.local.DataBaseLocalHelper
 import com.pixplay.planer.data.network.CODE
 import com.pixplay.planer.data.network.DataBaseNetworkHelper
 import io.reactivex.disposables.Disposable
-import westroom.checkbook2.data.models.adapter.ModelTask
+import com.pixplay.planer.data.models.adapter.ModelTask
 import westroom.checkbook2.data.models.adapter.ModelTaskFromFB
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -58,6 +58,34 @@ import javax.inject.Singleton
 
     override fun addNewTask(modelTask: ModelTask, handler: IAppCallback<CODE>): Disposable {
         return dataBaseNetworkHelper.addNewTask(modelTask).subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
+
+    override fun modiferStatusTask(id: String, status: String, handler: IAppCallback<CODE>): Disposable {
+        return dataBaseNetworkHelper.modiferStatusTask(id, status).subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
+
+    override fun deleteTask(id: String, handler: IAppCallback<CODE>): Disposable {
+        return dataBaseNetworkHelper.deleteTask(id).subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
+
+    override fun getTask(id: String, handler: IAppCallback<ModelTask>): Disposable {
+        return dataBaseNetworkHelper.getTask(id).subscribe(
+            { handler.onSuccess(it) },
+            { handler.onFailure(it.message, it) }
+        )
+    }
+
+    override fun clearAllTasks(handler: IAppCallback<CODE>): Disposable {
+        return dataBaseNetworkHelper.clearAllTasks().subscribe(
             { handler.onSuccess(it) },
             { handler.onFailure(it.message, it) }
         )

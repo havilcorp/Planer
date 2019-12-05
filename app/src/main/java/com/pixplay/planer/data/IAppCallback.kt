@@ -1,7 +1,6 @@
 package com.pixplay.planer.data
 
 import android.util.Log
-import westroom.checkbook2.data.models.adapter.ModelTask
 
 interface IAppCallback <T> {
 

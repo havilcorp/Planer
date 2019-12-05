@@ -2,8 +2,6 @@ package com.pixplay.planer.ui.new_task
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Path
-import android.graphics.RectF
 import android.os.Bundle
 import butterknife.ButterKnife
 import com.pixplay.planer.App
