@@ -16,19 +16,18 @@ import com.pixplay.planer.base.BaseActivity
 import com.pixplay.planer.data.models.menu.ModelMenu
 import com.pixplay.planer.ui.main.fragments.FRAME
 import com.pixplay.planer.ui.main.fragments.Fragment10Years
-import com.unicornlight.ui.main.fragments.Fragment1Mount
-import com.unicornlight.ui.main.fragments.Fragment1Year
-import com.unicornlight.ui.main.fragments.FragmentGood
+import com.pixplay.planer.ui.main.fragments.Fragment1Mount
+import com.pixplay.planer.ui.main.fragments.Fragment1Year
+import com.pixplay.planer.ui.main.fragments.FragmentGood
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.backgroundColor
-import westroom.checkbook2.data.models.adapter.ModelIdString
 import com.pixplay.planer.data.models.adapter.ModelTask
 import javax.inject.Inject
 
 
 class MainActivity : BaseActivity(), MainContract.IView {
 
-    val listFragments = ArrayList<ModelMenu>()
+    val listModelMenu = ArrayList<ModelMenu>()
     private lateinit var fTrans: FragmentTransaction
 
     override fun inject() {
@@ -49,22 +48,23 @@ class MainActivity : BaseActivity(), MainContract.IView {
 
     override fun initializeView() {
 
-        //  init fragments
-        listFragments.add(ModelMenu(Fragment10Years(), FRAME.FRAME10Years, "План на 10 лет"))
-        listFragments.add(ModelMenu(Fragment1Year(), FRAME.FRAME1Year, "План на 1 год"))
-        listFragments.add(ModelMenu(Fragment1Mount(), FRAME.FRAME1Mounth, "План на 1 месяц"))
-        listFragments.add(ModelMenu(FragmentGood(), FRAME.FRAMEGoods, "Выполнено"))
+        //init fragments
+        listModelMenu.add(ModelMenu(Fragment10Years(), FRAME.FRAME10Years, "Все мечты"))
+        listModelMenu.add(ModelMenu(Fragment1Year(), FRAME.FRAME1Year, "План на 1 год"))
+        listModelMenu.add(ModelMenu(Fragment1Mount(), FRAME.FRAME1Mounth, "В работе"))
+        listModelMenu.add(ModelMenu(FragmentGood(), FRAME.FRAMEGoods, "Выполнено"))
+
         fTrans = supportFragmentManager.beginTransaction()
-        listFragments.forEach { fTrans.add(R.id.main_frame, it.fragment) }
+        listModelMenu.forEach { fTrans.add(R.id.main_frame, it.fragment) }
         fTrans.commit()
         //
 
-        main_actionMenu1View.setOnClickListener { presenter.actionMenu(listFragments[0]) }
-        main_actionMenu2View.setOnClickListener { presenter.actionMenu(listFragments[1]) }
-        main_actionMenu3View.setOnClickListener { presenter.actionMenu(listFragments[2]) }
-        main_actionMenu4View.setOnClickListener { presenter.actionMenu(listFragments[3]) }
+        main_actionMenu1View.setOnClickListener { presenter.actionMenu(listModelMenu[0]) }
+        main_actionMenu2View.setOnClickListener { presenter.actionMenu(listModelMenu[1]) }
+        main_actionMenu3View.setOnClickListener { presenter.actionMenu(listModelMenu[2]) }
+        main_actionMenu4View.setOnClickListener { presenter.actionMenu(listModelMenu[3]) }
 
-        presenter.actionMenu(listFragments[0])
+        presenter.actionMenu(listModelMenu[0])
 
     }
 
@@ -101,25 +101,25 @@ class MainActivity : BaseActivity(), MainContract.IView {
     }
 
     override fun activeButton(frame: FRAME) {
-        main_actionMenu1.backgroundColor = Color.TRANSPARENT
-        main_actionMenu2.backgroundColor = Color.TRANSPARENT
-        main_actionMenu3.backgroundColor = Color.TRANSPARENT
-        main_actionMenu4.backgroundColor = Color.TRANSPARENT
-        if(frame == FRAME.FRAME10Years) main_actionMenu1.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAME1Year) main_actionMenu2.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAME1Mounth) main_actionMenu3.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
-        if(frame == FRAME.FRAMEGoods) main_actionMenu4.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        main_actionMenu4View.backgroundColor = Color.TRANSPARENT
+        main_actionMenu3View.backgroundColor = Color.TRANSPARENT
+        main_actionMenu2View.backgroundColor = Color.TRANSPARENT
+        main_actionMenu1View.backgroundColor = Color.TRANSPARENT
+        if(frame == FRAME.FRAME10Years) main_actionMenu1View.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAME1Year) main_actionMenu2View.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAME1Mounth) main_actionMenu3View.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
+        if(frame == FRAME.FRAMEGoods) main_actionMenu4View.backgroundColor = ContextCompat.getColor(this, R.color.actionButton)
     }
 
     override fun openFrame(frame: FRAME) {
         fTrans = supportFragmentManager.beginTransaction()
-        listFragments.forEach { fTrans.detach(it.fragment) }
-        listFragments.forEach { if(it.frame == frame) fTrans.attach(it.fragment) }
+        listModelMenu.forEach { fTrans.detach(it.fragment) }
+        listModelMenu.forEach { if(it.frame == frame) fTrans.attach(it.fragment) }
         fTrans.commit()
     }
 
     fun getFrame(frame: FRAME): Fragment {
-        listFragments.forEach { if(it.frame == frame) return it.fragment }
+        listModelMenu.forEach { if(it.frame == frame) return it.fragment }
         return Fragment()
     }
 
@@ -127,7 +127,7 @@ class MainActivity : BaseActivity(), MainContract.IView {
 
     // frame_10Years
     override fun setCount10Year(count: Int) {
-        main_actionMenu1.text = "10 Лет ($count)"
+        main_actionMenu1.text = "Все мечты ($count)"
     }
     override fun addItemTo10Year(modelTask: ModelTask) {
         (getFrame(FRAME.FRAME10Years) as Fragment10Years).addToList(modelTask)
@@ -153,7 +153,7 @@ class MainActivity : BaseActivity(), MainContract.IView {
     }
     // frame_1Mount
     override fun setCount1Mount(count: Int) {
-        main_actionMenu3.text = "1 Месяц ($count)"
+        main_actionMenu3.text = "В работе ($count)"
     }
     override fun addItemTo1Mount(modelTask: ModelTask) {
         (getFrame(FRAME.FRAME1Mounth) as Fragment1Mount).addToList(modelTask)

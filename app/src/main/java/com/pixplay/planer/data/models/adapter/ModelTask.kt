@@ -8,15 +8,4 @@ data class ModelTask (
     var status : String = "",
     var id : String = ""
 
-) {
-
-    fun getHashMap(): HashMap<String, Any> {
-        val data = HashMap<String, Any>()
-        data["url"] = url
-        data["title"] = title
-        data["description"] = description
-        data["status"] = status
-        return data
-    }
-
-}
+)

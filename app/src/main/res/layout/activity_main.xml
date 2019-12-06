@@ -45,6 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textSize="13sp"
                         android:textColor="@color/sign_text_color"
                         android:text="Все мечты"/>
 
@@ -69,6 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textSize="13sp"
                         android:textColor="@color/sign_text_color"
                         android:text="1 Год"/>
 
@@ -93,6 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textSize="13sp"
                         android:textColor="@color/sign_text_color"
                         android:text="В работе"/>
 
@@ -117,6 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:textSize="13sp"
                         android:textColor="@color/sign_text_color"
                         android:text="Выполнено"/>
 

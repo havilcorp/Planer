@@ -28,6 +28,7 @@ import javax.inject.Singleton
     private lateinit var internetUtils: InternetUtils
 
     override fun initializeView() {
+        iMvpView?.initializeView()
 
         dataManager.startTaskListener(object : IAppCallback<ArrayList<ModelTaskFromFB>> {
             override fun onSuccess(response: ArrayList<ModelTaskFromFB>) {
@@ -40,7 +41,6 @@ import javax.inject.Singleton
                             if(it.modelTask.status == FRAME.FRAMEGoods.name) iMvpView?.addItemToGood(it.modelTask)
                         }
                         DocumentChange.Type.MODIFIED -> {
-
                             iMvpView?.removeItemTo10Year(it.modelTask)
                             iMvpView?.removeItemTo1Year(it.modelTask)
                             iMvpView?.removeItemTo1Mount(it.modelTask)
@@ -66,13 +66,16 @@ import javax.inject.Singleton
 
     override fun actionTopMenu(itemId: Int) {
         when(itemId) {
-            R.id.menu_clear -> iMvpView?.showAlertDialog(R.id.menu_exit, "Вы действиельно хотите очистить все задачи?")
+            R.id.menu_clear -> iMvpView?.showAlertDialog(R.id.menu_clear, "Вы действиельно хотите очистить все задачи?")
             R.id.menu_exit -> iMvpView?.showAlertDialog(R.id.menu_exit, "Вы действиельно хотите выйти?")
         }
     }
 
     override fun frame_main_OnActionAlertDialogResult(id: Int) {
         when(id) {
+            R.id.menu_clear -> {
+                dataManager.clearAllTasks(object : IAppCallback<CODE> {})
+            }
             R.id.menu_exit -> {
                 dataManager.signOut(object : IAppCallback<CODE> {
                     override fun onSuccess(response: CODE) {
@@ -80,15 +83,12 @@ import javax.inject.Singleton
                     }
                 })
             }
-            R.id.menu_clear -> {
-                dataManager.clearAllTasks(object : IAppCallback<CODE> {})
-            }
         }
     }
 
     override fun actionMenu(modelMenu: ModelMenu) {
         iMvpView?.openFrame(modelMenu.frame)
-        //iMvpView?.activeButton(modelMenu.frame)
+        iMvpView?.activeButton(modelMenu.frame)
         iMvpView?.setTitle(modelMenu.title)
     }
 
@@ -103,10 +103,10 @@ import javax.inject.Singleton
         val list = ArrayList<String>()
         list.add("Редактировать")
         list.add("Удалить")
-        list.add("Перенести во вкладку 10 лет")
+        list.add("Перенести во вкладку Все мечты")
         list.add("Перенести во вкладку 1 год")
-        list.add("Перенести во вкладку 1 месяц")
-        list.add("Перенести во вкладку выполнено")
+        list.add("Перенести во вкладку В работе")
+        list.add("Перенести во вкладку Выполнено")
         iMvpView?.showListAlertDialog(frame, list)
     }
 
